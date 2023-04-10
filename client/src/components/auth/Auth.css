@@ -1,0 +1,58 @@
+.signup-page,.login-page{
+    display: flex;
+    justify-content: center;
+    margin-top: 5%;
+}
+.signup-container,.login-container{
+ width: 25vw;
+ padding: 2% 3% 2%;
+ line-height: .5;
+ border: .1px solid gray;
+ border-radius: .5rem;
+
+}
+.signup-heading,.login-heading{
+    margin-bottom: 12%;
+}
+.signup-field,.login-field{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.signup-field>input,.login-field>input{
+    height: 5vh;
+    width: 25vw;
+    border-radius: .5rem;
+    font-size: medium;
+    font-weight: 600;
+    font-style: italic;
+    padding-left: 1.5%;
+    margin: 3.5% 0;
+    border: .1px solid gray;
+    outline: none;
+    box-sizing: border-box;
+}
+.signup-field>button,.login-field>button{
+    height: 5vh;
+    width: 24.9vw;
+    border-radius: .5rem;
+    font-size: medium;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    margin: 8% 0 0;
+    background-color: rgb(254, 184, 67);
+
+}
+.signup-field>button:active,.login-field>button:active{
+    background-color: rgb(213, 152, 47);
+}
+.already{
+    display: flex;
+}
+
+.already-link{
+    color: green;
+    text-decoration: none;
+
+}

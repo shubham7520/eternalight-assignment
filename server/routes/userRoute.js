@@ -6,8 +6,8 @@ import isAuthenticatedUser from "../middleware/auth.js";
 const route = express.Router();
 
 route.post('/register', Register);
-route.get('/login', Login);
-route.post('/updateProfile', isAuthenticatedUser, updateProfile);
-route.post('/updatePassword', isAuthenticatedUser, updatePassword);
+route.post('/login', Login);
+route.put('/updateProfile', isAuthenticatedUser, updateProfile);
+route.put('/updatePassword', isAuthenticatedUser, updatePassword);
 
 export default route;
