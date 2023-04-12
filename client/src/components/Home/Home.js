@@ -48,7 +48,7 @@ const Home = (props) => {
 
     return (
         <React.Fragment>
-            {showModal && (showModal === "name" ? <Modal name={name} setName={setName} handleProfileUpdate={handleProfileUpdate} /> : <Modal password={password} setPassword={setPassword} handlePasswordUpdate={handlePasswordUpdate} />)}
+            {showModal && (showModal === "name" ? <Modal name={name} setName={setName} handleProfileUpdate={handleProfileUpdate} setShowModal={setShowModal} /> : <Modal password={password} setPassword={setPassword} setShowModal={setShowModal} handlePasswordUpdate={handlePasswordUpdate} />)}
             <div className='profile-page'>
                 <div className='nav-bar'>
                     <h1>Profile</h1>

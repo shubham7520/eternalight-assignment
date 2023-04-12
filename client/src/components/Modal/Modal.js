@@ -6,7 +6,7 @@ function Modal(props) {
     const [inputValue, setInputValue] = useState(props.name);
 
     const handleModelOff = () => {
-        console.log("Shubham");
+        props.setShowModal(null);
     }
 
     const handleInputChange = (event) => {
@@ -27,11 +27,15 @@ function Modal(props) {
     };
 
     return (
-        <div className="modal" onClick={handleModelOff}>
-            <div className="modal-content">
+        <div className="modal">
+            <div className="modal-content" >
                 <h2>Change {props.name ? "Name" : "Password"}</h2>
                 <input type="text" value={inputValue} onChange={handleInputChange} />
-                <button onClick={handleSubmit}>Submit</button>
+                <div style={{ display: "flex", paddingLeft: "4px" }}>
+                    <button onClick={handleSubmit}>Submit</button>
+                    <button style={{ backgroundColor: "red", }} onClick={handleModelOff}>Cancle</button>
+                </div>
+
             </div>
         </div>
     );
