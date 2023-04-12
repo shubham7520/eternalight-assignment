@@ -1,38 +1,24 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import "./Auth.css";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-const Login = () => {
+const Login = (props) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState(false);
-    const navigate = useNavigate('');
 
     const handleClick = async () => {
-        if (!email || !password) {
-            setError(true);
-            return;
-        }
-        setError(false);
-
         await axios.post(`http://localhost:8000/api/v1/login`, { email, password }, {
             headers: {
                 "Content-Type": "application/json"
             }
-        }).then(response => {
-            console.log(response.data);
-            localStorage.setItem("Token", response.data.Token);
-            navigate('/');
+        }).then(res => {
+            localStorage.setItem("Token", res.data.Token);
+            props.setToken(res.data.token)
+            window.location.reload()
         }).catch(error => console.log(error.response.data));
 
     }
-
-    useEffect(() => {
-        // if (localStorage.getItem("Token")) {
-        //     navigate("/")
-        // }
-    }, [navigate])
 
     return (
         <div className='login-page'>

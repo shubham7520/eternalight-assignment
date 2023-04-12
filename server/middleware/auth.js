@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import User from "../models/userModel.js";
+
 
 const isAuthenticatedUser = async (req, res, next) => {
 

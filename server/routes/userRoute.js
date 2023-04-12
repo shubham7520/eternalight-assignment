@@ -1,5 +1,5 @@
 import express from "express";
-import { Login, Register, updatePassword, updateProfile } from "../controllers/userController.js";
+import { Login, Register, updatePassword, updateProfile, userDetail } from "../controllers/userController.js";
 import isAuthenticatedUser from "../middleware/auth.js";
 
 
@@ -9,5 +9,6 @@ route.post('/register', Register);
 route.post('/login', Login);
 route.put('/updateProfile', isAuthenticatedUser, updateProfile);
 route.put('/updatePassword', isAuthenticatedUser, updatePassword);
+route.get('/userDetail', isAuthenticatedUser, userDetail);
 
 export default route;

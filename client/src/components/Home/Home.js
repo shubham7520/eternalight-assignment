@@ -1,47 +1,77 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import "./Home.css";
 import { FaUserAlt, FaEdit } from "react-icons/fa";
-import EditProfile from '../EditProfile';
-import ChangePassword from './ChangePassword';
+import axios from "axios";
+import Modal from "../Modal/Modal"
 
-const Home = () => {
-    const [editProfile, setEditProfile] = useState(false);
-    const [editPassword, setEditPassword] = useState(false);
+const Home = (props) => {
+    const [user, setUser] = useState();
+    const [showModal, setShowModal] = useState(null);
+    const [name, setName] = useState(null)
+    const [password, setPassword] = useState("")
 
-    const changePassword = async () => {
-
-        console.log("change password");
+    const userData = async () => {
+        await axios.get(`http://localhost:8000/api/v1/userDetail`, {
+            headers: {
+                "x-access-token": localStorage.getItem("Token")
+            }
+        }).then((res) => {
+            setUser(res.data.user);
+            setName(res.data.user.name)
+        }).catch(error => console.log(error.res.data));
     }
 
-    const handleEdit = async () => {
-        setEditProfile(!editProfile);
-        console.log("Edit Profile");
+    const handleProfileUpdate = async () => {
+        await axios.put(`http://localhost:8000/api/v1/updateProfile`, { name }, {
+            headers: {
+                "x-access-token": props.token
+            }
+        }).then((res) => {
+            setUser(res.data.user);
+        }).catch(error => console.log(error.response.data));
+        setShowModal(null)
     }
+    const handlePasswordUpdate = async () => {
+        await axios.put(`http://localhost:8000/api/v1/updatePassword`, { newPassword: password }, {
+            headers: {
+                "x-access-token": props.token
+            }
+        }).then((res) => {
+            setUser(res.data.user);
+        }).catch(error => console.log(error.response.data));
+        setShowModal(null)
+    }
+
+    useEffect(() => {
+        userData();
+    }, [])
+
     return (
-        <div className='profile-page'>
-
-            <div className='nav-bar'>
-                <h1>Profile</h1>
-                <p>Logout</p>
-            </div>
-
-            <FaUserAlt size={100} />
-            <h2>WELCOME!</h2>
-            <div>
-                <div className='user-name'>
-                    <p><b>Name:&nbsp;&nbsp;</b>shubham</p>
-                    <FaEdit style={{ marginLeft: 50, cursor: "pointer" }} size={25} onClick={handleEdit} />
-
+        <React.Fragment>
+            {showModal && (showModal === "name" ? <Modal name={name} setName={setName} handleProfileUpdate={handleProfileUpdate} /> : <Modal password={password} setPassword={setPassword} handlePasswordUpdate={handlePasswordUpdate} />)}
+            <div className='profile-page'>
+                <div className='nav-bar'>
+                    <h1>Profile</h1>
+                    <p onClick={() => { localStorage.clear(); window.location.reload() }}>Logout</p>
                 </div>
-                {editProfile ? <EditProfile setEditProfile={setEditProfile} /> : ""}
-                <div className='user-email'>
-                    <p><b>Email:&nbsp;&nbsp;</b>shubham@gmail.com</p>
 
+                <FaUserAlt size={100} />
+                <h2>WELCOME!</h2>
+                <div>
+                    <div className='user-name'>
+                        <p><b>Name:&nbsp;&nbsp;</b>{user?.name}</p>
+                        <FaEdit style={{ marginLeft: 50, cursor: "pointer" }} size={25} onClick={() => setShowModal("name")} />
+
+                    </div>
+                    <div className='user-email'>
+                        <p><b>Email:&nbsp;&nbsp;</b>{user?.email}</p>
+
+                    </div>
+                    <button onClick={() => setShowModal("password")}>change password</button>
                 </div>
-                <button onClick={changePassword}>change password</button>
-            </div>
 
-        </div>
+            </div>
+        </React.Fragment>
     )
 }
 

@@ -71,6 +71,27 @@ const Login = async (req, res, next) => {
     });
 }
 
+// User Details
+
+const userDetail = async (req, res, next) => {
+
+    const user = await User.findById(req.user.id);
+
+    if (!user) {
+        return req.status(404).json({
+            success: false,
+            message: "User not found."
+        })
+    }
+
+    res.status(200).json({
+        success: true,
+        user,
+        message: "User details."
+    })
+
+}
+
 //Update Password
 
 const updatePassword = async (req, res, next) => {
@@ -103,17 +124,18 @@ const updateProfile = async (req, res, next) => {
     const newData = {
         name: req.body.name
     }
-    await User.findByIdAndUpdate(req.user.id, newData, {
+    const user = await User.findByIdAndUpdate(req.user.id, newData, {
         new: true,
         runValidators: true,
         useFindAndModify: false
     });
     res.status(200).json({
         success: true,
+        user,
         message: "Profile Update Successfully"
     })
 
 }
 
 
-export { Register, Login, updatePassword, updateProfile };
+export { Register, Login, updatePassword, updateProfile, userDetail };

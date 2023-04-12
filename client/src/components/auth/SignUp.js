@@ -1,42 +1,34 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import "./Auth.css";
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 
 
-const SignUp = () => {
+const SignUp = (props) => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState(false);
-    const navigate = useNavigate();
+    const navigate = useNavigate()
 
     const handleClick = async () => {
-
-        if (!name || !email || !password) {
-            setError(true);
-            return;
-        }
-        setError(false);
 
         await axios.post(`http://localhost:8000/api/v1/register`, { name, email, password }, {
             headers: {
                 "Content-Type": "application/json"
             }
-        }).then(response => {
-            console.log(response);
-            localStorage.setItem("Token", response.data.Token);
-            navigate('/');
+        }).then(res => {
+            localStorage.setItem("Token", res.data.Token);
+            props.setToken(res.data.token)
+            navigate("/")
         }).catch(error => console.log(error.response.data));
     }
 
-
     useEffect(() => {
-        // if (localStorage.getItem("Token")) {
-        //     navigate("/")
-        // }
-    }, [navigate]);
+        if (localStorage.getItem("Token")) {
+            navigate('/');
+        }
+    })
 
     return (
         <div className='signup-page'>
@@ -48,7 +40,7 @@ const SignUp = () => {
                     <input type="password" placeholder='Enter Password' onChange={(e) => { setPassword(e.target.value) }} value={password} required />
                     <button onClick={handleClick}>Register</button>
                 </div>
-                <div className='already'><p>Already registered? <Link to="/login" className='already-link'><b>Login.</b></Link></p></div>
+                <div className='already'><p>Already registered? <Link to="/" className='already-link'><b>Login.</b></Link></p></div>
 
             </div>
         </div>
