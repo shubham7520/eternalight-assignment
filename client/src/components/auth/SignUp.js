@@ -9,7 +9,9 @@ const SignUp = (props) => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const [error, setError] = useState("");
+    const [success, setSuccess] = useState(true);
 
     const handleClick = async () => {
 
@@ -21,7 +23,11 @@ const SignUp = (props) => {
             localStorage.setItem("Token", res.data.Token);
             props.setToken(res.data.token)
             navigate("/")
-        }).catch(error => console.log(error.response.data));
+        }).catch(error => {
+            console.log(error.response.data);
+            setSuccess(error.response.data.success);
+            setError(error.response.data.message)
+        });
     }
 
     useEffect(() => {
@@ -38,6 +44,7 @@ const SignUp = (props) => {
                     <input type="text" placeholder='Enter Name' onChange={(e) => { setName(e.target.value) }} value={name} required />
                     <input type="email" placeholder='Enter Email' onChange={(e) => { setEmail(e.target.value) }} value={email} required />
                     <input type="password" placeholder='Enter Password' onChange={(e) => { setPassword(e.target.value) }} value={password} required />
+                    {success ? "" : <p style={{ color: "red", margin: 0 }}>{error}</p>}
                     <button onClick={handleClick}>Register</button>
                 </div>
                 <div className='already'><p>Already registered? <Link to="/" className='already-link'><b>Login.</b></Link></p></div>
