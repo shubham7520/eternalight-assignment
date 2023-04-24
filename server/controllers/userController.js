@@ -5,6 +5,8 @@ import User from "../models/userModel.js";
 const Register = async (req, res, next) => {
 
     try {
+        const { name, email, password } = req.body;
+
         if (!req.body.name || !req.body.email || !req.body.password) {
             return res.status(400).json({
                 success: false,
@@ -12,7 +14,7 @@ const Register = async (req, res, next) => {
             });
         }
 
-        const userExist = await User.findOne({ email: req.body.email });
+        const userExist = await User.findOne({ email });
 
         if (userExist) {
             return res.status(409).json({
@@ -21,7 +23,7 @@ const Register = async (req, res, next) => {
             });
         }
 
-        const user = await User.create(req.body);
+        const user = await User.create({ name, email, password });
 
         const Token = await user.getJWTToken()
 

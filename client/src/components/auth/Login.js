@@ -31,8 +31,8 @@ const Login = (props) => {
             <div className='login-container'>
                 <h1 className='login-heading'>Welcome!</h1>
                 <div className='login-field'>
-                    <input type="email" placeholder='Enter Email' onChange={(e) => { setEmail(e.target.value) }} value={email} required />
-                    <input type="password" placeholder='Enter Password' onChange={(e) => { setPassword(e.target.value) }} value={password} required />
+                    <input type="email" placeholder='Enter Email*' onChange={(e) => { setEmail(e.target.value) }} value={email} required />
+                    <input type="password" placeholder='Enter Password*' onChange={(e) => { setPassword(e.target.value) }} value={password} required />
                     {success ? "" : <p style={{ color: "red", margin: 0 }}>{error}</p>}
                     <button onClick={handleClick}>Login</button>
                 </div>
